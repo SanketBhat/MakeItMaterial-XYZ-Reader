@@ -42,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
                 android:layout_gravity="bottom"
+                android:elevation="4dp"
                 android:fitsSystemWindows="true"
                 app:contentInsetEnd="0dp"
                 app:contentInsetStart="0dp"
@@ -102,6 +103,7 @@
         android:id="@+id/article_body_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
@@ -110,5 +112,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:elevation="6dp"
         android:src="@drawable/ic_share" />
 </android.support.design.widget.CoordinatorLayout>

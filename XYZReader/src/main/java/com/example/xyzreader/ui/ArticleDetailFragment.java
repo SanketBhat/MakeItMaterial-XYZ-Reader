@@ -7,7 +7,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -52,6 +55,8 @@ public class ArticleDetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String ARG_ITEM_ID = "item_id";
+    private static final String LAYOUT_MANAGER_STATE = "layout_state";
+    private static final String APPBAR_STATE = "appbar_state";
     private static final String TAG = "ArticleDetailFragment";
     @BindView(R.id.article_body_list)
     public RecyclerView recyclerView;
@@ -65,6 +70,8 @@ public class ArticleDetailFragment extends Fragment implements
     public ImageButton upButton;
     @BindView(R.id.article_fragment_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.article_fragment_appbar)
+    AppBarLayout appBarLayout;
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
     private View mRootView;
@@ -73,6 +80,8 @@ public class ArticleDetailFragment extends Fragment implements
     private int mMutedColor = 0xFF333333;
     private int actionBarColor;
     private int statusBarColor;
+    private Parcelable layoutManagerState = null;
+    private boolean appbarExpanded = true;
 
     @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
@@ -95,18 +104,6 @@ public class ArticleDetailFragment extends Fragment implements
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
-    }
-
-    //Taken help from https://stackoverflow.com/questions/33072365/how-to-darken-a-given-color-int
-    public static int manipulateColor(int color, float factor) {
-        int a = Color.alpha(color);
-        int r = Math.round(Color.red(color) * factor);
-        int g = Math.round(Color.green(color) * factor);
-        int b = Math.round(Color.blue(color) * factor);
-        return Color.argb(a,
-                Math.min(r, 255),
-                Math.min(g, 255),
-                Math.min(b, 255));
     }
 
     @Override
@@ -152,15 +149,35 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (getUserVisibleHint()) setColors();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) setColors();
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        if (getUserVisibleHint()) setColors();
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager != null) {
+            outState.putParcelable(LAYOUT_MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
+            outState.putBoolean(APPBAR_STATE, (appBarLayout.getHeight() - appBarLayout.getBottom() == 0));
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            layoutManagerState = savedInstanceState.getParcelable(LAYOUT_MANAGER_STATE);
+            appbarExpanded = savedInstanceState.getBoolean(APPBAR_STATE);
+        }
     }
 
     public ArticleDetailActivity getActivityCast() {
@@ -215,7 +232,7 @@ public class ArticleDetailFragment extends Fragment implements
                                 Palette p = new Palette.Builder(bitmap).generate();
                                 mMutedColor = p.getDarkMutedColor(0xFF333333);
                                 actionBarColor = p.getVibrantColor(mMutedColor);
-                                statusBarColor = p.getDarkVibrantColor(manipulateColor(mMutedColor, 0.66f));
+                                statusBarColor = p.getDarkVibrantColor(getDarkColor(mMutedColor));
                                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
                                 mRootView.findViewById(R.id.photoBackground)
                                         .setBackgroundColor(mMutedColor);
@@ -259,6 +276,10 @@ public class ArticleDetailFragment extends Fragment implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        if (layoutManagerState != null && recyclerView.getLayoutManager() != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerState);
+            appBarLayout.setExpanded(appbarExpanded, true);
+        }
     }
 
     @NonNull
@@ -287,5 +308,18 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> cursorLoader) {
         mCursor = null;
+    }
+
+    //Taken help from https://stackoverflow.com/questions/33072365/how-to-darken-a-given-color-int
+    private int getDarkColor(int color) {
+        float factor = 0.66f;
+        int a = Color.alpha(color);
+        int r = Math.round(Color.red(color) * factor);
+        int g = Math.round(Color.green(color) * factor);
+        int b = Math.round(Color.blue(color) * factor);
+        return Color.argb(a,
+                Math.min(r, 255),
+                Math.min(g, 255),
+                Math.min(b, 255));
     }
 }

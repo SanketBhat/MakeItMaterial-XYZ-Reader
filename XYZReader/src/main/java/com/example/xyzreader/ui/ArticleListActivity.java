@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,9 +43,18 @@ public class ArticleListActivity extends AppCompatActivity implements
             if (UpdaterService.BROADCAST_ACTION_STATE_CHANGE.equals(intent.getAction())) {
                 mIsRefreshing = intent.getBooleanExtra(UpdaterService.EXTRA_REFRESHING, false);
                 updateRefreshingUI();
+            } else if (UpdaterService.BROADCAST_ACTION_NO_INTERNET.equals(intent.getAction())) {
+                showNoInternet();
+                mIsRefreshing = false;
+                updateRefreshingUI();
             }
         }
     };
+
+    private void showNoInternet() {
+        Snackbar snackbar = Snackbar.make(mRecyclerView, "No internet connection!", Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +64,6 @@ public class ArticleListActivity extends AppCompatActivity implements
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         setTitle("");
-
-
-        //final View toolbarContainerView = findViewById(R.id.toolbar_container);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
@@ -76,8 +83,9 @@ public class ArticleListActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        registerReceiver(mRefreshingReceiver,
-                new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE));
+        IntentFilter intentFilter = new IntentFilter(UpdaterService.BROADCAST_ACTION_STATE_CHANGE);
+        intentFilter.addAction(UpdaterService.BROADCAST_ACTION_NO_INTERNET);
+        registerReceiver(mRefreshingReceiver, intentFilter);
     }
 
     @Override

@@ -1,4 +1,5 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="4dp"
@@ -27,13 +28,14 @@
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="4"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="4dp"
-            android:textColor="#000000"
-            android:ellipsize="end"
-            android:maxLines="4" />
+            android:textColor="@color/colorPrimaryText"
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/article_subtitle"
@@ -45,8 +47,9 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"
-            android:textColor="#616161"
-            android:textSize="12sp" />
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="12sp"
+            tools:text="Date and author" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

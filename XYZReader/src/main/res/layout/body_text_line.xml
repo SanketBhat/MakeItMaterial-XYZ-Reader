@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/article_body"
     style="?android:attr/textAppearanceMedium"
     android:layout_width="match_parent"
@@ -7,7 +8,9 @@
     android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
     android:layout_marginRight="@dimen/detail_inner_horiz_margin"
     android:layout_marginBottom="16dp"
+    android:fontFamily="serif"
     android:lineSpacingMultiplier="@fraction/detail_body_line_spacing_multiplier"
-    android:textColor="#a0000000"
+    android:textColor="@color/colorSecondaryText"
     android:textColorLink="@color/colorAccent"
-    android:textSize="@dimen/detail_body_text_size" />
+    android:textSize="@dimen/detail_body_text_size"
+    tools:text="This is the text for testing" />
