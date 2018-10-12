@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppThemeOverlay">
 
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -25,12 +24,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/logo" />
-
         </android.support.v7.widget.Toolbar>
-
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/activity_article_list_content" />
-
-
 </android.support.design.widget.CoordinatorLayout>
