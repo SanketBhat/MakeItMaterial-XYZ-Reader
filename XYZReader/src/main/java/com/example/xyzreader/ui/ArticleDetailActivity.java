@@ -69,24 +69,8 @@ public class ArticleDetailActivity extends AppCompatActivity
 
             @Override
             public void onPageScrollStateChanged(int state) {
-               /* mUpButton.animate()
-                        .alpha((state == ViewPager.SCROLL_STATE_IDLE) ? 1f : 0f)
-                        .setDuration(300);*/
             }
         });
-
-        //mUpButtonContainer = findViewById(R.id.up_container);
-
-        //mUpButton = findViewById(R.id.action_up);
-        //mUpButton.setOnClickListener(view -> onSupportNavigateUp());
-
-        /*mUpButtonContainer.setOnApplyWindowInsetsListener((view, windowInsets) -> {
-            view.onApplyWindowInsets(windowInsets);
-            mTopInset = windowInsets.getSystemWindowInsetTop();
-            mUpButtonContainer.setTranslationY(mTopInset);
-            updateUpButtonPosition();
-            return windowInsets;
-        });*/
 
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {

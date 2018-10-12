@@ -8,5 +8,6 @@
     <string name="action_share">Share</string>
 
     <string name="up">Up</string>
+    <string name="share_template">Hey there, I am reading "%s" using app XYZ Reader</string>
 
 </resources>

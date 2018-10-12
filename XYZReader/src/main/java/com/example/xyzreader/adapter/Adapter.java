@@ -82,12 +82,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                             publishedDate.getTime(),
                             System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                             DateUtils.FORMAT_ABBREV_ALL).toString()
-                            + "<br/>" + " by "
+                            + " by "
                             + mCursor.getString(ArticleLoader.Query.AUTHOR)));
         } else {
             holder.subtitleView.setText(Html.fromHtml(
                     outputFormat.format(publishedDate)
-                            + "<br/>" + " by "
+                            + " by "
                             + mCursor.getString(ArticleLoader.Query.AUTHOR)));
         }
         holder.thumbnailView.setImageUrl(

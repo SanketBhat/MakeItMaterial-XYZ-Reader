@@ -41,6 +41,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -137,7 +138,7 @@ public class ArticleDetailFragment extends Fragment implements
             if (getActivity() != null) {
                 startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                         .setType("text/plain")
-                        .setText("Hey there, I am reading \"" + titleView.getText() + "\" using app " + getString(R.string.app_name))
+                        .setText(String.format(Locale.getDefault(), getString(R.string.share_template), titleView.getText()))
                         .getIntent(), getString(R.string.action_share)));
             }
         });
