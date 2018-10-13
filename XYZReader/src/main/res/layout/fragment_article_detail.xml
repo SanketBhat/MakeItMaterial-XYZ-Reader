@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/appbar_height"
         android:fitsSystemWindows="true"
+        android:elevation="@dimen/toolbar_elevation"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -78,7 +79,8 @@
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/upButton"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Title" />
 
                     <TextView
                         android:id="@+id/article_byline"
@@ -93,7 +95,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/upButton"
-                        app:layout_constraintTop_toBottomOf="@+id/article_title" />
+                        app:layout_constraintTop_toBottomOf="@+id/article_title"
+                        tools:text="Subtitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -120,6 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        app:pressedTranslationZ="@dimen/fab_pressed_translation"
         android:layout_margin="@dimen/fab_margin"
         android:elevation="@dimen/fab_elevation"
         android:src="@drawable/ic_share" />

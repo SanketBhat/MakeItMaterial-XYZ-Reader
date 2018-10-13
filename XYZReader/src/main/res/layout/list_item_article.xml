@@ -6,6 +6,7 @@
     android:layout_marginTop="@dimen/article_item_margin"
     android:layout_marginRight="@dimen/article_item_margin"
     android:layout_marginBottom="@dimen/article_item_margin"
+    android:elevation="@dimen/card_elevation"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground">
